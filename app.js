@@ -1,301 +1,254 @@
 // =========================================================
-// ApexTech Reviews — Data-Driven App Engine
-// All products are loaded from products.json.
-// To add a new product: just add an entry to products.json!
+// ApexTech Hub — Live Amazon Search Engine & Deals Engine
+// Automatically injects your Amazon Associate Tag into every search
 // =========================================================
 
-const AMAZON_BASE = 'https://www.amazon.in/dp/';
-const BADGE_CLASSES = {
-  'editors-choice': 'award-editors-choice',
-  'best-value': 'award-best-value',
-  'enthusiast': 'award-enthusiast'
+const AMAZON_SEARCH_BASE = 'https://www.amazon.in/s?';
+const AMAZON_DP_BASE = 'https://www.amazon.in/dp/';
+const AMAZON_DEALS_BASE = 'https://www.amazon.in/deals?';
+
+const TRENDING_SEARCHES = [
+  "Sony WH-1000XM5",
+  "iPhone 16 Pro",
+  "MacBook Air M3",
+  "Mechanical Keyboard",
+  "Anker 100W GaN Charger",
+  "Samsung Galaxy S24",
+  "Logitech MX Master 3S",
+  "4K Gaming Monitor",
+  "Boat Airdopes ANC",
+  "iPad Air M2"
+];
+
+const CATEGORIES_DATA = [
+  {
+    id: "audio",
+    icon: "🎧",
+    title: "Headphones & Earbuds",
+    desc: "Active noise cancellation, studio monitors, wireless earbuds & soundbars.",
+    query: "wireless noise cancelling headphones",
+    tags: ["Sony", "Bose", "Sennheiser", "Apple AirPods", "Boat", "JBL"]
+  },
+  {
+    id: "laptops",
+    icon: "💻",
+    title: "Laptops & Computers",
+    desc: "Productivity ultrabooks, Apple MacBooks, gaming rigs & tablets.",
+    query: "laptops for productivity and gaming",
+    tags: ["Apple MacBook", "Dell XPS", "Asus ROG", "Lenovo ThinkPad", "HP Pavilion"]
+  },
+  {
+    id: "phones",
+    icon: "📱",
+    title: "Smartphones & 5G Mobiles",
+    desc: "Flagship smartphones, budget 5G picks, high-wattage chargers & cases.",
+    query: "5G smartphones",
+    tags: ["Apple iPhone", "Samsung Galaxy", "OnePlus", "Google Pixel", "Xiaomi"]
+  },
+  {
+    id: "smartwatches",
+    icon: "⌚",
+    title: "Smartwatches & Wearables",
+    desc: "Fitness trackers, AMOLED smartwatches, heart monitors & GPS sports watches.",
+    query: "smartwatches for men and women",
+    tags: ["Apple Watch", "Samsung Galaxy Watch", "Garmin", "Amazfit", "Noise"]
+  },
+  {
+    id: "gaming",
+    icon: "🎮",
+    title: "Gaming & Consoles",
+    desc: "PS5, Xbox, mechanical gaming keyboards, high-DPI mice & 144Hz+ monitors.",
+    query: "gaming gear and accessories",
+    tags: ["PlayStation 5", "Xbox Series X", "Razer", "Logitech G", "SteelSeries"]
+  },
+  {
+    id: "workstation",
+    icon: "🔌",
+    title: "Workstation Docks & Hubs",
+    desc: "Dual 4K USB-C docking stations, GaN chargers, monitor arms & desk hubs.",
+    query: "usb c docking station dual 4k",
+    tags: ["Anker", "Belkin", "Ugreen", "Baseus", "Satechi"]
+  },
+  {
+    id: "tv-audio",
+    icon: "📺",
+    title: "Smart TVs & Home Audio",
+    desc: "4K OLED displays, Dolby Atmos soundbars, streaming sticks & projectors.",
+    query: "4k oled smart tv",
+    tags: ["Sony Bravia", "LG OLED", "Samsung QLED", "Fire TV Stick 4K", "JBL Bar"]
+  },
+  {
+    id: "creator",
+    icon: "🎙️",
+    title: "Content Creator & Streaming",
+    desc: "USB dynamic microphones, 4K webcams, ring lights & capture cards.",
+    query: "streaming microphone and webcam",
+    tags: ["Shure", "Rode", "Elgato", "Blue Yeti", "Logitech Brio"]
+  }
+];
+
+// Helper: Get active affiliate tag
+function getActiveTag() {
+  const input = document.getElementById('tag-input');
+  return (input && input.value.trim()) || 'apextechrevie-21';
+}
+
+// Build Amazon search URL
+function buildSearchURL(query, categoryNode, tag) {
+  const params = new URLSearchParams();
+  params.set('k', query);
+  if (categoryNode && categoryNode !== 'electronics' && categoryNode !== 'todays-deals') {
+    params.set('i', categoryNode);
+  }
+  params.set('tag', tag);
+  return `${AMAZON_SEARCH_BASE}${params.toString()}`;
+}
+
+// Build Amazon deals URL
+function buildDealsURL(query, tag) {
+  return `${AMAZON_DEALS_BASE}k=${encodeURIComponent(query)}&tag=${tag}`;
+}
+
+// Render Trending Chips
+function renderTrendingChips(tag) {
+  const container = document.getElementById('trending-chips');
+  if (!container) return;
+
+  container.innerHTML = TRENDING_SEARCHES.map(term => {
+    const url = buildSearchURL(term, 'electronics', tag);
+    return `<a href="${url}" class="chip-item" target="_blank" rel="sponsored nofollow">${term}</a>`;
+  }).join('');
+}
+
+// Render Category Cards
+function renderCategories(tag) {
+  const container = document.getElementById('categories-grid');
+  if (!container) return;
+
+  container.innerHTML = CATEGORIES_DATA.map(cat => {
+    const catUrl = buildSearchURL(cat.query, 'electronics', tag);
+
+    const subPills = cat.tags.map(brand => {
+      const brandUrl = buildSearchURL(`${brand} ${cat.title}`, 'electronics', tag);
+      return `<a href="${brandUrl}" class="cat-pill" target="_blank" rel="sponsored nofollow">${brand}</a>`;
+    }).join('');
+
+    return `
+      <div class="category-card" id="cat-${cat.id}">
+        <div class="category-card-top">
+          <div class="cat-icon">${cat.icon}</div>
+          <div>
+            <h3>${cat.title}</h3>
+            <p>${cat.desc}</p>
+          </div>
+        </div>
+
+        <div class="cat-brands-wrap">
+          <span class="cat-brands-label">Popular Searches:</span>
+          <div class="cat-pills-list">${subPills}</div>
+        </div>
+
+        <a href="${catUrl}" class="btn-category-search" target="_blank" rel="sponsored nofollow">
+          <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+          Search ${cat.title} on Amazon
+        </a>
+      </div>
+    `;
+  }).join('');
+}
+
+// Update Highlight Banners
+function updateHighlightBanners(tag) {
+  const lightning = document.getElementById('deal-lightning');
+  const prime = document.getElementById('deal-prime');
+
+  if (lightning) {
+    lightning.href = `${AMAZON_DEALS_BASE}i=electronics&tag=${tag}`;
+  }
+  if (prime) {
+    lightning.href = `${AMAZON_SEARCH_BASE}k=electronics+best+sellers&tag=${tag}`;
+  }
+}
+
+// Global helper for footer links
+window.searchWithCategory = function(term) {
+  const tag = getActiveTag();
+  const url = buildSearchURL(term, 'electronics', tag);
+  window.open(url, '_blank');
 };
 
-const CATEGORY_ICONS = {
-  audio: '🎧',
-  mic: '🎙️',
-  keyboard: '⌨️',
-  dock: '🔌'
-};
+// Initialize
+function init() {
+  const tag = getActiveTag();
+  renderTrendingChips(tag);
+  renderCategories(tag);
+  updateHighlightBanners(tag);
 
-// ── Helper: build an affiliate URL ──────────────────────────────────────────
-function buildLink(asin, tag) {
-  return `${AMAZON_BASE}${asin}?tag=${tag}`;
-}
+  // Search Form Submit
+  const searchForm = document.getElementById('amazon-search-form');
+  if (searchForm) {
+    searchForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const queryInput = document.getElementById('amazon-query');
+      const categorySelect = document.getElementById('amazon-category');
+      const query = queryInput.value.trim() || 'electronics best deals';
+      const category = categorySelect.value;
+      const currentTag = getActiveTag();
 
-// ── Helper: Amazon SVG icon ──────────────────────────────────────────────────
-function amazonSVG() {
-  return `<svg viewBox="0 0 24 24"><path d="M15.3 11.2c-.1-.7-.4-1.3-.9-1.8-.5-.5-1.1-.8-1.8-.9-.8 0-1.4.3-2 .8-.5.5-.8 1.1-.9 1.9h5.6zm1.9 2.5c-.1.7-.4 1.3-.8 1.8-.5.5-1.1.8-1.9.9-.7 0-1.4-.3-1.9-.8-.5-.5-.8-1.1-.9-1.9h5.5zM21.7 20.3c-.3.3-.8.4-1.2.4-1.5 0-3.3-.7-5.5-2.1-2.2-1.4-4-3-5.4-4.8C8.2 12 7.3 10.3 7 8.7c-.2-.9 0-1.7.5-2.3.4-.6 1.1-.9 2-.9 1 0 1.8.4 2.3 1.2.4.7.6 1.5.6 2.4 0 .9-.3 1.7-.8 2.4-.5.7-1.2 1.2-2.1 1.5.6 1.1 1.4 2.1 2.4 3 1 1 2.2 1.8 3.5 2.5.4-.7.9-1.3 1.6-1.7.7-.4 1.4-.6 2.2-.6.9 0 1.7.3 2.3.9.6.6.9 1.4.9 2.3-.1.4-.2.7-.4.9z"/></svg>`;
-}
+      let targetUrl;
+      if (category === 'todays-deals') {
+        targetUrl = buildDealsURL(query, currentTag);
+      } else {
+        targetUrl = buildSearchURL(query, category, currentTag);
+      }
 
-// ── Render: Top Verdict Box (first product marked topPick:true) ──────────────
-function renderVerdictBox(product, tag) {
-  const link = buildLink(product.asin, tag);
-  return `
-  <div class="verdict-box" id="top-pick">
-    <div class="verdict-header">
-      <span class="verdict-badge">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-        Editor's Choice 2026
-      </span>
-      <div class="verdict-score">
-        <span style="font-size:0.85rem;color:var(--text-secondary)">Lab Score</span>
-        <div class="score-circle">${product.score}</div>
-      </div>
-    </div>
-    <div class="verdict-grid">
-      <div class="verdict-image-wrapper">
-        <img src="${product.image}" alt="${product.title}">
-      </div>
-      <div class="verdict-content">
-        <h2>${product.title}</h2>
-        <p class="verdict-summary">${product.summary}</p>
-        <div class="verdict-highlights">
-          ${product.highlights.map(h => `<span class="highlight-tag">✓ ${h}</span>`).join('')}
-        </div>
-        <div style="display:flex;gap:14px;flex-wrap:wrap;align-items:center">
-          <a href="${link}" class="cta-amazon affiliate-link" target="_blank" rel="sponsored nofollow" data-asin="${product.asin}">
-            ${amazonSVG()} Check Price on Amazon.in
-          </a>
-          <a href="#${product.id}" class="cta-secondary">Read Full Deep-Dive ↓</a>
-        </div>
-      </div>
-    </div>
-  </div>`;
-}
-
-// ── Render: Comparison Table Row ─────────────────────────────────────────────
-function renderTableRow(product, tag) {
-  const link = buildLink(product.asin, tag);
-  const badgeClass = BADGE_CLASSES[product.badge] || 'award-best-value';
-  return `
-  <tr data-cat="${product.category}">
-    <td>
-      <div class="table-product-cell">
-        <img src="${product.image}" class="table-product-thumb" alt="${product.title}">
-        <div>
-          <div class="table-product-title">${product.title}</div>
-          <span class="award-badge ${badgeClass}">${product.badgeLabel}</span>
-        </div>
-      </div>
-    </td>
-    <td>${CATEGORY_ICONS[product.category] || ''} ${product.category}</td>
-    <td>${product.keyFeature}</td>
-    <td><strong style="color:var(--accent-emerald)">${product.score} / 10</strong></td>
-    <td>${product.targetBuyer}</td>
-    <td>
-      <a href="${link}" class="cta-amazon affiliate-link" style="padding:8px 14px;font-size:0.82rem" target="_blank" rel="sponsored nofollow" data-asin="${product.asin}">
-        View on Amazon
-      </a>
-    </td>
-  </tr>`;
-}
-
-// ── Render: Full Deep-Dive Review Card ────────────────────────────────────────
-function renderReviewCard(product, index, tag) {
-  const link = buildLink(product.asin, tag);
-  const badgeClass = BADGE_CLASSES[product.badge] || 'award-best-value';
-  const specsHTML = Object.entries(product.specs)
-    .map(([k, v]) => `<div class="spec-chip-item"><span>${k}:</span><strong>${v}</strong></div>`)
-    .join('');
-  const prosHTML = product.pros.map(p => `<li>${p}</li>`).join('');
-  const consHTML = product.cons.map(c => `<li>${c}</li>`).join('');
-
-  return `
-  <article class="review-card" id="${product.id}" data-cat="${product.category}">
-    <div class="review-card-top">
-      <div>
-        <div class="review-badge-row">
-          <span class="award-badge ${badgeClass}">${product.badgeLabel}</span>
-          <span style="font-size:0.8rem;color:var(--text-muted)">ASIN: ${product.asin}</span>
-        </div>
-        <h3 class="review-card-title">${index + 1}. ${product.title}</h3>
-      </div>
-      <div class="review-rating-pill">★ ${product.rating} / 5.0</div>
-    </div>
-
-    <div class="review-body-layout">
-      <div class="review-gallery">
-        <img src="${product.image}" class="main-product-img" alt="${product.title}">
-        <div class="spec-chip-list">${specsHTML}</div>
-      </div>
-
-      <div>
-        <p style="color:var(--text-secondary);margin-bottom:20px">${product.summary}</p>
-
-        <div class="pros-cons-container">
-          <div class="pro-column">
-            <div class="box-heading">✓ What We Loved (Pros)</div>
-            <ul class="pros-cons-list">${prosHTML}</ul>
-          </div>
-          <div class="con-column">
-            <div class="box-heading">✕ Where It Falls Short (Cons)</div>
-            <ul class="pros-cons-list">${consHTML}</ul>
-          </div>
-        </div>
-
-        <div class="audience-row">
-          <div class="audience-card buy">
-            <strong>Buy this if:</strong> ${product.buyIf}
-          </div>
-          <div class="audience-card skip">
-            <strong>Skip this if:</strong> ${product.skipIf}
-          </div>
-        </div>
-
-        <div class="review-actions">
-          <span class="pricing-note">${product.pricingNote}</span>
-          <a href="${link}" class="cta-amazon affiliate-link" target="_blank" rel="sponsored nofollow" data-asin="${product.asin}">
-            ${amazonSVG()} Check Latest Price on Amazon.in
-          </a>
-        </div>
-      </div>
-    </div>
-  </article>`;
-}
-
-// ── Render: Google Product Review Schema (JSON-LD) ────────────────────────────
-function injectSchema(product) {
-  const existing = document.getElementById('product-schema');
-  if (existing) existing.remove();
-  const script = document.createElement('script');
-  script.type = 'application/ld+json';
-  script.id = 'product-schema';
-  script.textContent = JSON.stringify({
-    "@context": "https://schema.org/",
-    "@type": "Product",
-    "name": product.title,
-    "image": product.image,
-    "description": product.summary,
-    "review": {
-      "@type": "Review",
-      "reviewRating": { "@type": "Rating", "ratingValue": String(product.rating), "bestRating": "5" },
-      "author": { "@type": "Person", "name": "ApexTech Editorial Team" },
-      "publisher": { "@type": "Organization", "name": "ApexTech Reviews" }
-    },
-    "aggregateRating": {
-      "@type": "AggregateRating",
-      "ratingValue": String(product.rating),
-      "reviewCount": "184"
-    }
-  }, null, 2);
-  document.head.appendChild(script);
-}
-
-// ── Main: Load products.json & build entire page ──────────────────────────────
-async function init() {
-  let products;
-  try {
-    const res = await fetch('products.json');
-    products = await res.json();
-  } catch (e) {
-    console.error('Could not load products.json:', e);
-    return;
+      window.open(targetUrl, '_blank');
+    });
   }
 
-  const tag = document.getElementById('tag-input').value || 'apextechrevie-21';
-
-  // Render verdict box (first topPick)
-  const topPick = products.find(p => p.topPick) || products[0];
-  document.getElementById('top-pick-container').innerHTML = renderVerdictBox(topPick, tag);
-  injectSchema(topPick);
-
-  // Render comparison table
-  const tbody = document.getElementById('comparison-table-body');
-  tbody.innerHTML = products.map(p => renderTableRow(p, tag)).join('');
-
-  // Render review cards
-  const grid = document.getElementById('reviews-grid');
-  grid.innerHTML = products.map((p, i) => renderReviewCard(p, i, tag)).join('');
-
-  // Mobile sticky bar
-  const mobileBar = document.getElementById('mobile-cta-bar');
-  const mobileTitle = document.getElementById('mobile-product-title');
-  const mobileCTALink = document.getElementById('mobile-cta-link');
-  if (mobileBar) {
-    mobileBar.style.display = '';
-    mobileCTALink.href = buildLink(topPick.asin, tag);
-    mobileTitle.textContent = topPick.title.slice(0, 28) + '...';
-  }
-
-  // ── Amazon Tag Configurator ──────────────────────────────────────────────
+  // Tag Input Changes
   const tagInput = document.getElementById('tag-input');
   const tagStatus = document.getElementById('tag-status');
-
-  function refreshAllLinks(newTag) {
-    document.querySelectorAll('.affiliate-link').forEach(link => {
-      const asin = link.getAttribute('data-asin');
-      if (asin) link.href = buildLink(asin, newTag);
-    });
-    if (mobileCTALink) mobileCTALink.href = buildLink(topPick.asin, newTag);
-    tagStatus.textContent = `Active (${newTag})`;
-    tagStatus.style.color = '#10b981';
-    tagStatus.animate([{ transform: 'scale(1.2)' }, { transform: 'scale(1)' }], { duration: 300 });
-  }
-
-  tagInput.addEventListener('input', e => refreshAllLinks(e.target.value.trim() || 'apextechrevie-21'));
-
-  // ── Category Filter ──────────────────────────────────────────────────────
-  document.querySelectorAll('.filter-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      const cat = btn.getAttribute('data-category');
-
-      document.querySelectorAll('#comparison-table-body tr').forEach(row => {
-        row.style.display = (cat === 'all' || row.dataset.cat === cat) ? '' : 'none';
-      });
-      document.querySelectorAll('.review-card').forEach(card => {
-        const show = cat === 'all' || card.dataset.cat === cat;
-        card.style.display = show ? '' : 'none';
-        if (show) card.animate(
-          [{ opacity: 0, transform: 'translateY(10px)' }, { opacity: 1, transform: 'translateY(0)' }],
-          { duration: 250, easing: 'ease-out' }
-        );
-      });
-    });
-  });
-
-  // ── Mobile sticky context switcher (updates as user scrolls) ────────────
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        const asin = entry.target.querySelector('.affiliate-link')?.dataset.asin;
-        const title = entry.target.querySelector('.review-card-title')?.textContent || '';
-        const currentTag = tagInput.value.trim() || 'apextechrevie-21';
-        if (asin && mobileCTALink) mobileCTALink.href = buildLink(asin, currentTag);
-        if (mobileTitle) mobileTitle.textContent = title.replace(/^\d+\.\s*/, '').slice(0, 28) + '...';
+  if (tagInput) {
+    tagInput.addEventListener('input', function() {
+      const newTag = this.value.trim() || 'apextechrevie-21';
+      renderTrendingChips(newTag);
+      renderCategories(newTag);
+      updateHighlightBanners(newTag);
+      if (tagStatus) {
+        tagStatus.textContent = `Active (${newTag})`;
+        tagStatus.style.color = '#10b981';
       }
     });
-  }, { threshold: 0.3 });
-  document.querySelectorAll('.review-card').forEach(card => observer.observe(card));
-
-  // ── Blogger / WordPress export helpers ───────────────────────────────────
-  function showAndCopy(text, btn) {
-    const preview = document.getElementById('code-preview');
-    document.getElementById('snippet-text').textContent = text;
-    preview.style.display = 'block';
-    navigator.clipboard.writeText(text).then(() => {
-      const orig = btn.textContent;
-      btn.textContent = '✓ Copied!';
-      btn.style.background = '#10b981';
-      btn.style.color = '#fff';
-      setTimeout(() => { btn.textContent = orig; btn.style.background = ''; btn.style.color = ''; }, 2500);
-    });
-    preview.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }
 
-  document.getElementById('btn-copy-table')?.addEventListener('click', function () {
-    showAndCopy('<!-- Comparison Table -->\n' + document.querySelector('.table-container').outerHTML, this);
-  });
-  document.getElementById('btn-copy-card')?.addEventListener('click', function () {
-    const card = document.querySelector('.review-card');
-    showAndCopy('<!-- Review Card -->\n' + (card ? card.outerHTML : ''), this);
-  });
-  document.getElementById('btn-copy-schema')?.addEventListener('click', function () {
-    const s = document.getElementById('product-schema');
-    showAndCopy(s ? `<script type="application/ld+json">\n${s.textContent}\n<\/script>` : '', this);
-  });
+  // Direct ASIN / URL Launcher
+  const btnLaunch = document.getElementById('btn-launch-asin');
+  const asinInput = document.getElementById('direct-asin-input');
+
+  if (btnLaunch && asinInput) {
+    const launchAsin = () => {
+      const val = asinInput.value.trim();
+      if (!val) return;
+
+      const currentTag = getActiveTag();
+      // Match 10-character alphanumeric ASIN
+      const asinMatch = val.match(/(?:dp\/|gp\/product\/|asin=|\/)([A-Z0-9]{10})(?:[/?&]|$)/i) || val.match(/^[A-Z0-9]{10}$/i);
+
+      if (asinMatch) {
+        const asin = asinMatch[1] || asinMatch[0];
+        window.open(`${AMAZON_DP_BASE}${asin.toUpperCase()}?tag=${currentTag}`, '_blank');
+      } else {
+        // Fallback: search for whatever text was entered
+        window.open(buildSearchURL(val, 'electronics', currentTag), '_blank');
+      }
+    };
+
+    btnLaunch.addEventListener('click', launchAsin);
+    asinInput.addEventListener('keydown', e => {
+      if (e.key === 'Enter') launchAsin();
+    });
+  }
 }
 
 document.addEventListener('DOMContentLoaded', init);
