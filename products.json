@@ -1,0 +1,142 @@
+[
+  {
+    "id": "product-1",
+    "asin": "B00EXAMPLE1",
+    "title": "ApexWave Pro Wireless ANC Studio Headphones",
+    "category": "audio",
+    "badge": "editors-choice",
+    "badgeLabel": "Top Pick",
+    "rating": 4.8,
+    "score": 9.6,
+    "keyFeature": "Hybrid ANC / 45h Battery",
+    "targetBuyer": "Remote workers & audiophiles",
+    "summary": "The benchmark for hybrid noise cancellation and reference-grade audio fidelity. Whether blocking office chatter or mixing audio tracks, this outperforms rivals costing ₹10,000 more.",
+    "highlights": ["45h Battery Life", "Lossless LDAC Codec", "Multi-device Multipoint", "Replaceable Memory Foam Cups"],
+    "specs": {
+      "Battery": "45h (ANC on)",
+      "Weight": "248g (Ultra-light)",
+      "Bluetooth": "5.3 Multipoint",
+      "Warranty": "2 Years"
+    },
+    "pros": [
+      "Astonishing 45-hour real-world battery endurance",
+      "Plush memory foam stays comfortable through 8-hour workdays",
+      "Natural transparency mode doesn't sound robotic",
+      "Intuitive physical buttons instead of finicky touch gestures"
+    ],
+    "cons": [
+      "Companion app requires account signup for custom EQ",
+      "Hard shell travel case is somewhat bulky"
+    ],
+    "buyIf": "You want all-day comfort, clean reference audio, and effortless switching between your phone and laptop.",
+    "skipIf": "You only want gym sweatproof earbuds or ultra-compact folding headphones for pockets.",
+    "image": "assets/headphones.svg",
+    "pricingNote": "Prices and availability subject to change on Amazon.",
+    "topPick": true
+  },
+  {
+    "id": "product-2",
+    "asin": "B00EXAMPLE2",
+    "title": "SonicStream PodMic XLR & USB-C Dynamic Microphone",
+    "category": "mic",
+    "badge": "best-value",
+    "badgeLabel": "Best Value",
+    "rating": 4.7,
+    "score": 9.3,
+    "keyFeature": "Dual USB-C / XLR Outputs",
+    "targetBuyer": "Podcasters & video callers",
+    "summary": "Most condenser microphones pick up unwanted air conditioner hums and keyboard clatter. The SonicStream dynamic capsule naturally rejects off-axis room echo, giving you that rich broadcast voice.",
+    "highlights": ["Dual USB & XLR", "24-bit/96kHz", "Zero-Latency Monitor", "Built-in Pop Filter"],
+    "specs": {
+      "Polar Pattern": "Cardioid Dynamic",
+      "Resolution": "24-bit / 96kHz",
+      "Output": "USB-C & XLR Dual",
+      "Headphone Out": "Zero-Latency 3.5mm"
+    },
+    "pros": [
+      "Dual USB & XLR allows starting simple and upgrading later",
+      "Exceptional background room noise rejection",
+      "Heavy zinc-alloy desktop stand included in box",
+      "Built-in pop filter eliminates harsh plosives"
+    ],
+    "cons": [
+      "Requires speaking relatively close (2–4 inches) to capsule",
+      "Included USB-C cable is rather stiff"
+    ],
+    "buyIf": "You host Zoom meetings, record podcasts, or stream in an untreated bedroom with echo.",
+    "skipIf": "You record group panel discussions with one mic (this is strictly single-speaker cardioid).",
+    "image": "assets/microphone.svg",
+    "pricingNote": "Eligible for Amazon Prime Free 2-Day Shipping.",
+    "topPick": false
+  },
+  {
+    "id": "product-3",
+    "asin": "B00EXAMPLE3",
+    "title": "KeyCraft Cyber75 Gasket Mechanical Keyboard",
+    "category": "keyboard",
+    "badge": "best-value",
+    "badgeLabel": "Best Kept Secret",
+    "rating": 4.6,
+    "score": 9.1,
+    "keyFeature": "Hot-Swap Gasket Mount",
+    "targetBuyer": "Typists, coders, writers",
+    "summary": "Delivers the deep, creamy sound profile previously only found in custom keyboards right out of the box. Its compact 75% footprint preserves function row keys while reclaiming massive mouse room.",
+    "highlights": ["Factory Lubed Switches", "Tri-Mode Wireless", "CNC Rotary Knob", "Hot-Swappable PCB"],
+    "specs": {
+      "Layout": "75% Compact (82 Keys)",
+      "Switches": "Factory Pre-lubed Linear",
+      "Mounting": "Silicone Gasket Dampening",
+      "Connectivity": "Tri-mode (2.4G/BT/Wired)"
+    },
+    "pros": [
+      "Factory lubed switches sound astonishingly smooth",
+      "Volume control CNC aluminum rotary knob",
+      "Seamless hot-swappable PCB for 3-pin & 5-pin switches",
+      "Compatible with both macOS and Windows layout keys"
+    ],
+    "cons": [
+      "No dedicated number pad (standard for 75% layouts)",
+      "Slightly heavier than plastic office keyboards"
+    ],
+    "buyIf": "You type for hours daily and want fatigue-free cushioning with premium acoustics.",
+    "skipIf": "Your workflow relies constantly on a physical 10-key numeric keypad for data entry.",
+    "image": "assets/keyboard.svg",
+    "pricingNote": "Prime eligible with easy 30-day returns.",
+    "topPick": false
+  },
+  {
+    "id": "product-4",
+    "asin": "B00EXAMPLE4",
+    "title": "OmniPort 10-in-1 Dual 4K USB-C Docking Station",
+    "category": "dock",
+    "badge": "enthusiast",
+    "badgeLabel": "Workstation Champion",
+    "rating": 4.8,
+    "score": 9.4,
+    "keyFeature": "Dual 4K @ 60Hz + 100W PD",
+    "targetBuyer": "Mac & Windows laptop setups",
+    "summary": "Eliminates desktop cable spaghetti in a single move. Connect two external 4K monitors, wired gigabit internet, mouse, keyboard, and SD cards through one single USB-C cable.",
+    "highlights": ["Dual 4K @ 60Hz", "100W Power Delivery", "Gigabit Ethernet", "SD/microSD Slots"],
+    "specs": {
+      "Displays": "Dual 4K @ 60Hz HDMI",
+      "Power": "100W PD Pass-through",
+      "Ethernet": "Gigabit RJ-45 (1000Mbps)",
+      "USB Ports": "3x USB 3.2 (10Gbps)"
+    },
+    "pros": [
+      "Drives dual 4K monitors at smooth 60Hz without lag",
+      "Aluminum unibody chassis disperses heat efficiently",
+      "100W fast power delivery charges MacBooks and XPS laptops",
+      "Zero driver installation required for Windows 11 & macOS"
+    ],
+    "cons": [
+      "Requires bringing your own 65W+ USB-C power brick",
+      "macOS extends displays in mirror mode on basic M1/M2 non-Pro chips"
+    ],
+    "buyIf": "You plug and unplug your laptop daily and want a seamless one-cable desktop workstation.",
+    "skipIf": "You only need a simple single-monitor HDMI adapter.",
+    "image": "assets/dock.svg",
+    "pricingNote": "Discounts often applied at Amazon checkout.",
+    "topPick": false
+  }
+]

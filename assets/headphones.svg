@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" width="100%" height="100%">
+  <defs>
+    <linearGradient id="gradHeadphones" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6366f1"/>
+      <stop offset="100%" stop-color="#06b6d4"/>
+    </linearGradient>
+    <filter id="glow1" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+  </defs>
+  <!-- Headband -->
+  <path d="M50 130 C 50 60, 190 60, 190 130" fill="none" stroke="url(#gradHeadphones)" stroke-width="12" stroke-linecap="round" filter="url(#glow1)"/>
+  <path d="M60 130 C 60 75, 180 75, 180 130" fill="none" stroke="#1e293b" stroke-width="6"/>
+  <!-- Left Ear Cup -->
+  <rect x="36" y="115" width="30" height="58" rx="15" fill="#1e293b" stroke="#475569" stroke-width="2"/>
+  <rect x="42" y="123" width="18" height="42" rx="9" fill="url(#gradHeadphones)"/>
+  <!-- Right Ear Cup -->
+  <rect x="174" y="115" width="30" height="58" rx="15" fill="#1e293b" stroke="#475569" stroke-width="2"/>
+  <rect x="180" y="123" width="18" height="42" rx="9" fill="url(#gradHeadphones)"/>
+  <!-- Subtle Soundwaves -->
+  <path d="M22 135 A 25 25 0 0 0 22 155" fill="none" stroke="#06b6d4" stroke-width="3" stroke-linecap="round" opacity="0.6"/>
+  <path d="M218 135 A 25 25 0 0 1 218 155" fill="none" stroke="#06b6d4" stroke-width="3" stroke-linecap="round" opacity="0.6"/>
+</svg>

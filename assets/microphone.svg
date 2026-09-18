@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" width="100%" height="100%">
+  <defs>
+    <linearGradient id="gradMic" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10b981"/>
+      <stop offset="100%" stop-color="#06b6d4"/>
+    </linearGradient>
+  </defs>
+  <!-- Mic Capsule -->
+  <rect x="92" y="40" width="56" height="96" rx="28" fill="#1e293b" stroke="#334155" stroke-width="3"/>
+  <rect x="98" y="46" width="44" height="48" rx="22" fill="url(#gradMic)" opacity="0.85"/>
+  <!-- Mesh Grill Lines -->
+  <line x1="98" y1="58" x2="142" y2="58" stroke="#0f172a" stroke-width="2"/>
+  <line x1="98" y1="70" x2="142" y2="70" stroke="#0f172a" stroke-width="2"/>
+  <line x1="98" y1="82" x2="142" y2="82" stroke="#0f172a" stroke-width="2"/>
+  <!-- U-Mount -->
+  <path d="M76 100 C 76 160, 164 160, 164 100" fill="none" stroke="#64748b" stroke-width="6" stroke-linecap="round"/>
+  <!-- Stand Stem -->
+  <line x1="120" y1="150" x2="120" y2="190" stroke="#64748b" stroke-width="8" stroke-linecap="round"/>
+  <!-- Base -->
+  <ellipse cx="120" cy="195" rx="55" ry="14" fill="#0f172a" stroke="#334155" stroke-width="3"/>
+</svg>

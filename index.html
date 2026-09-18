@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ApexTech Reviews | The Definitive Desk & Audio Gear Guide (2026)</title>
+  <meta name="description" content="Unbiased, lab-tested reviews of the best headphones, microphones, mechanical keyboards, and USB-C docks. Tested for creators, remote professionals, and gamers.">
+  <link rel="stylesheet" href="styles.css">
+  <!-- Schema injected dynamically by app.js after products.json loads -->
+</head>
+<body>
+
+  <!-- FTC & Amazon Associates Compliance Bar -->
+  <div class="compliance-bar" id="affiliate-disclosure">
+    <div class="container">
+      <strong>Affiliate Disclosure:</strong> As an Amazon Associate, we earn from qualifying purchases. When you buy through links on our site, we may earn an affiliate commission at no extra cost to you.
+    </div>
+  </div>
+
+  <!-- Top Navigation -->
+  <nav class="navbar">
+    <div class="container nav-content">
+      <a href="#" class="logo">
+        <span class="logo-badge">APEX</span>
+        <span>TechReviews</span>
+      </a>
+      <div class="tag-configurator">
+        <label for="tag-input">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>
+          Amazon Tag:
+        </label>
+        <input type="text" id="tag-input" value="apextechrevie-21" placeholder="apextechrevie-21" title="Your live Amazon Associate Tracking ID">
+        <span class="tag-status" id="tag-status">Active</span>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container">
+
+    <!-- Hero Section -->
+    <header class="hero">
+      <div class="hero-pill">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        Updated for 2026 • 240+ Hours of Hands-on Lab Bench Testing
+      </div>
+      <h1>The Best Desk & Audio Electronics for High-Focus Work</h1>
+      <p>We tested over 35 wireless headphones, studio mics, and desk hubs to find the top gear that actually boosts productivity and audio fidelity.</p>
+
+      <!-- Category Filter Tabs -->
+      <div class="filter-tabs" id="category-filters">
+        <button class="filter-btn active" data-category="all">All Recommendations</button>
+        <button class="filter-btn" data-category="audio">Audio & Headphones</button>
+        <button class="filter-btn" data-category="mic">Microphones & Streaming</button>
+        <button class="filter-btn" data-category="keyboard">Keyboards & Peripherals</button>
+        <button class="filter-btn" data-category="dock">Docks & Connectivity</button>
+      </div>
+    </header>
+
+    <!-- Top Verdict Box — filled dynamically -->
+    <section id="top-pick-container"></section>
+
+    <!-- Comparison Table — filled dynamically -->
+    <section style="margin-bottom: 60px;">
+      <h2 class="section-title">2026 Electronics Comparison Matrix</h2>
+      <p class="section-desc">Side-by-side comparison of our top tested consumer gadgets. Click any product to jump to its full test notes.</p>
+      <div class="table-container">
+        <table class="comparison-table">
+          <thead>
+            <tr>
+              <th>Product</th>
+              <th>Category</th>
+              <th>Key Feature</th>
+              <th>Rating</th>
+              <th>Target Buyer</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="comparison-table-body"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Deep-Dive Review Cards — filled dynamically -->
+    <section>
+      <h2 class="section-title">In-Depth Lab Reviews & Verdicts</h2>
+      <p class="section-desc">Comprehensive breakdown of performance metrics, pros, cons, and buyer warnings.</p>
+      <div class="reviews-grid" id="reviews-grid"></div>
+    </section>
+
+    <!-- Blogger Export Tool -->
+    <section class="blogger-export-section">
+      <h3>Blogger & WordPress Affiliate Widget Generator</h3>
+      <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 16px;">
+        Copy self-contained HTML + Google Review Schema ready to paste into any blog post HTML editor:
+      </p>
+      <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+        <button class="btn-copy" id="btn-copy-table">📋 Copy Comparison Table HTML</button>
+        <button class="btn-copy" id="btn-copy-card">📋 Copy Review Card #1 HTML</button>
+        <button class="btn-copy" id="btn-copy-schema">🔍 Copy Google Review Schema (JSON-LD)</button>
+      </div>
+      <div class="code-snippet-box" id="code-preview" style="display: none;">
+        <pre><code id="snippet-text"></code></pre>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Sticky Mobile CTA — filled dynamically -->
+  <aside class="mobile-sticky-cta" id="mobile-cta-bar" style="display:none;">
+    <div class="mobile-cta-content">
+      <div class="mobile-product-info">
+        <div class="mobile-product-title" id="mobile-product-title">Top Pick</div>
+        <div class="mobile-product-sub">#1 Rated Pick</div>
+      </div>
+      <a href="#" class="cta-amazon affiliate-link" id="mobile-cta-link"
+         style="padding: 9px 16px; font-size: 0.85rem;" target="_blank" rel="sponsored nofollow">
+        Check Amazon
+      </a>
+    </div>
+  </aside>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="logo" style="margin-bottom: 12px;">
+            <span class="logo-badge">APEX</span><span>TechReviews</span>
+          </div>
+          <p class="footer-disclaimer">
+            ApexTech Reviews is an independent technology review publication. We participate in the Amazon Services LLC Associates Program (Amazon.in Associates). As an Amazon Associate we earn from qualifying purchases.
+          </p>
+        </div>
+        <div>
+          <h4 style="margin-bottom: 12px; color: #fff;">Quick Links</h4>
+          <ul class="footer-links">
+            <li><a href="admin.html" target="_blank">🔧 ASIN Link Generator (Admin)</a></li>
+            <li><a href="#affiliate-disclosure">FTC Affiliate Disclosure</a></li>
+            <li><a href="#category-filters">Browse by Category</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 style="margin-bottom: 12px; color: #fff;">Editorial Policies</h4>
+          <ul class="footer-links">
+            <li><a href="#">Google Helpful Content Standards</a></li>
+            <li><a href="#">Testing Methodology</a></li>
+            <li><a href="#">Privacy & Cookie Policy</a></li>
+          </ul>
+        </div>
+      </div>
+      <div style="text-align: center; border-top: 1px solid var(--border-color); padding-top: 20px; font-size: 0.78rem; color: var(--text-muted);">
+        © 2026 ApexTech Reviews. Amazon and the Amazon logo are trademarks of Amazon.com, Inc. or its affiliates.
+      </div>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin — ASIN Link Generator & Product Manager</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body { padding: 40px 0 80px; }
+
+    .admin-header {
+      background: linear-gradient(135deg, rgba(99,102,241,0.15), rgba(6,182,212,0.1));
+      border: 1px solid rgba(99,102,241,0.25);
+      border-radius: var(--radius-lg);
+      padding: 28px 32px;
+      margin-bottom: 40px;
+    }
+    .admin-header h1 {
+      font-size: 1.8rem;
+      margin-bottom: 6px;
+    }
+    .admin-header p { color: var(--text-secondary); font-size: 0.95rem; }
+
+    .admin-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+      margin-bottom: 40px;
+    }
+
+    .admin-panel {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      backdrop-filter: blur(12px);
+    }
+
+    .admin-panel h2 {
+      font-size: 1.2rem;
+      margin-bottom: 18px;
+      color: var(--accent-cyan);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      background: rgba(0,0,0,0.35);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: var(--text-primary);
+      padding: 10px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 0.9rem;
+      font-family: inherit;
+      outline: none;
+      transition: var(--transition);
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(99,102,241,0.2);
+    }
+
+    .form-group textarea { min-height: 80px; resize: vertical; }
+
+    .form-group select option { background: #1e293b; }
+
+    /* Generated link result box */
+    .result-box {
+      background: #030712;
+      border: 1px solid rgba(16,185,129,0.3);
+      border-radius: var(--radius-sm);
+      padding: 14px 16px;
+      font-family: monospace;
+      font-size: 0.88rem;
+      color: #34d399;
+      word-break: break-all;
+      min-height: 44px;
+      margin-top: 14px;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--primary-hover));
+      color: #fff;
+      border: none;
+      padding: 11px 22px;
+      border-radius: var(--radius-sm);
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: var(--transition);
+      width: 100%;
+      margin-top: 6px;
+    }
+
+    .btn-primary:hover {
+      box-shadow: 0 4px 16px rgba(99,102,241,0.4);
+      transform: translateY(-1px);
+    }
+
+    .btn-success {
+      background: linear-gradient(135deg, #10b981, #059669);
+    }
+    .btn-success:hover {
+      box-shadow: 0 4px 16px rgba(16,185,129,0.4);
+    }
+
+    .btn-amber {
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn-group button { flex: 1; }
+
+    /* Product list table */
+    .products-panel {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      margin-bottom: 40px;
+      backdrop-filter: blur(12px);
+    }
+
+    .products-panel h2 {
+      font-size: 1.2rem;
+      margin-bottom: 18px;
+      color: var(--accent-cyan);
+    }
+
+    .product-row {
+      display: grid;
+      grid-template-columns: auto 1fr auto auto;
+      align-items: center;
+      gap: 16px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .product-row:last-child { border-bottom: none; }
+
+    .product-row-num {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(99,102,241,0.12);
+      border: 1px solid rgba(99,102,241,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.8rem;
+      color: #a5b4fc;
+      flex-shrink: 0;
+    }
+
+    .product-row-title { font-weight: 600; font-size: 0.9rem; }
+    .product-row-asin { font-family: monospace; font-size: 0.78rem; color: var(--accent-emerald); }
+
+    .btn-small {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid var(--border-color);
+      color: var(--text-primary);
+      padding: 5px 12px;
+      border-radius: 6px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .btn-small:hover { background: rgba(255,255,255,0.12); }
+    .btn-small.danger:hover { background: rgba(244,63,94,0.2); border-color: rgba(244,63,94,0.4); color: #f43f5e; }
+
+    .tip-box {
+      background: rgba(6,182,212,0.07);
+      border: 1px solid rgba(6,182,212,0.25);
+      border-radius: var(--radius-sm);
+      padding: 14px 18px;
+      font-size: 0.85rem;
+      color: #67e8f9;
+      margin-top: 20px;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 768px) {
+      .admin-grid { grid-template-columns: 1fr; }
+      .btn-group { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="compliance-bar">
+    <div class="container">
+      <strong>Admin Panel</strong> — Private use only. Do not share this URL publicly.
+    </div>
+  </div>
+
+  <main class="container">
+
+    <div class="admin-header">
+      <h1>🔧 ASIN Link Generator & Product Manager</h1>
+      <p>Paste any Amazon.in product URL or ASIN below. Your affiliate link is generated instantly. Add to <code>products.json</code> to publish on your blog automatically.</p>
+    </div>
+
+    <!-- Google Blogger 1-Click Export Banner -->
+    <div style="background: linear-gradient(135deg, rgba(255,153,0,0.15), rgba(99,102,241,0.15)); border: 1px solid rgba(255,153,0,0.4); border-radius: var(--radius-lg); padding: 24px 28px; margin-bottom: 36px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
+        <div>
+          <span style="background:#ff9900; color:#111; font-weight:800; font-size:0.75rem; padding:3px 10px; border-radius:4px; text-transform:uppercase;">Blogger Ready</span>
+          <h2 style="font-size:1.4rem; color:#fff; margin:8px 0 4px;">🚀 Publish to Google Blogger (30 Seconds)</h2>
+          <p style="color:var(--text-secondary); font-size:0.9rem; margin:0;">
+            Export the complete self-contained review article with your live tracking tag (<strong><span id="display-current-tag">apextechrevie-21</span></strong>) baked in.
+          </p>
+        </div>
+        <div style="display:flex; gap:12px; flex-wrap:wrap;">
+          <a href="blogger-post.html" target="_blank" class="btn-primary btn-amber" style="width:auto; padding:10px 18px; text-decoration:none; display:inline-flex; align-items:center; gap:8px;">
+            👁️ Open Blogger Template
+          </a>
+          <button id="btn-copy-blogger-code" class="btn-primary btn-success" style="width:auto; padding:10px 20px;">
+            📋 Copy Blogger-Ready HTML
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="admin-grid">
+
+      <!-- Panel 1: Instant Link Generator -->
+      <div class="admin-panel">
+        <h2>⚡ Instant Affiliate Link Generator</h2>
+
+        <div class="form-group">
+          <label>Your Amazon Associate Tag</label>
+          <input type="text" id="admin-tag" value="apextechrevie-21" placeholder="apextechrevie-21">
+        </div>
+
+        <div class="form-group">
+          <label>Amazon.in Product URL or ASIN</label>
+          <input type="text" id="asin-input" placeholder="Paste full Amazon URL or just ASIN (e.g. B09G9FPHY6)">
+        </div>
+
+        <button class="btn-primary" id="btn-generate">Generate Affiliate Link</button>
+
+        <div class="result-box" id="link-result">Your affiliate link will appear here...</div>
+
+        <div class="btn-group" style="margin-top:12px">
+          <button class="btn-primary btn-success" id="btn-copy-link" style="display:none">📋 Copy Link</button>
+          <button class="btn-primary btn-amber" id="btn-test-link" style="display:none" target="_blank">🔗 Test Link</button>
+        </div>
+
+        <div class="tip-box">
+          <strong>💡 How to use:</strong><br>
+          1. Go to Amazon.in and find any product you want to review.<br>
+          2. Copy the URL from the browser address bar.<br>
+          3. Paste it above — the ASIN is extracted automatically.<br>
+          4. Copy the generated link and use it in your Blogger post!
+        </div>
+      </div>
+
+      <!-- Panel 2: Add Product to products.json -->
+      <div class="admin-panel">
+        <h2>➕ Add New Product to Blog</h2>
+
+        <div class="form-group">
+          <label>ASIN (auto-filled after generating link)</label>
+          <input type="text" id="new-asin" placeholder="e.g. B09G9FPHY6">
+        </div>
+
+        <div class="form-group">
+          <label>Product Title</label>
+          <input type="text" id="new-title" placeholder="e.g. Sony WH-1000XM5 Wireless Headphones">
+        </div>
+
+        <div class="form-group">
+          <label>Category</label>
+          <select id="new-category">
+            <option value="audio">🎧 Audio & Headphones</option>
+            <option value="mic">🎙️ Microphones & Streaming</option>
+            <option value="keyboard">⌨️ Keyboards & Peripherals</option>
+            <option value="dock">🔌 Docks & Connectivity</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Badge Type</label>
+          <select id="new-badge">
+            <option value="editors-choice">⭐ Editor's Choice (Top Pick)</option>
+            <option value="best-value">💚 Best Value</option>
+            <option value="enthusiast">💜 Enthusiast / Power User</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>One-line Summary</label>
+          <textarea id="new-summary" placeholder="Write a 1-2 sentence summary of the product..."></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>Rating (out of 5)</label>
+          <input type="number" id="new-rating" min="1" max="5" step="0.1" value="4.5">
+        </div>
+
+        <button class="btn-primary btn-success" id="btn-generate-json">
+          📄 Generate products.json Entry
+        </button>
+
+        <div class="result-box" id="json-result" style="display:none; margin-top: 16px; white-space: pre; overflow-x: auto;"></div>
+        <button class="btn-primary" id="btn-copy-json" style="display:none; margin-top:10px">
+          📋 Copy JSON Entry
+        </button>
+
+        <div class="tip-box" style="margin-top: 16px;">
+          <strong>💡 Next step:</strong><br>
+          Copy the JSON entry above, open <code>products.json</code>, and paste it inside the <code>[…]</code> array. Save the file — your new product appears on the blog instantly!
+        </div>
+      </div>
+    </div>
+
+    <!-- Current Products Manager -->
+    <div class="products-panel">
+      <h2>📦 Products Currently on Your Blog</h2>
+      <div id="products-list">Loading products...</div>
+    </div>
+
+  </main>
+
+  <script>
+  // ── ASIN Extractor ──────────────────────────────────────────────────────────
+  function extractASIN(input) {
+    input = input.trim();
+    // Direct 10-char ASIN
+    if (/^[A-Z0-9]{10}$/.test(input)) return input;
+    // From URL: /dp/ASIN or /gp/product/ASIN
+    const match = input.match(/(?:\/dp\/|\/gp\/product\/)([A-Z0-9]{10})/);
+    return match ? match[1] : null;
+  }
+
+  const AMAZON_BASE = 'https://www.amazon.in/dp/';
+  let lastGeneratedASIN = null;
+  let lastGeneratedLink = null;
+
+  // ── Generate affiliate link ─────────────────────────────────────────────────
+  document.getElementById('btn-generate').addEventListener('click', () => {
+    const raw = document.getElementById('asin-input').value;
+    const tag = document.getElementById('admin-tag').value.trim() || 'apextechrevie-21';
+    const asin = extractASIN(raw);
+
+    const resultBox = document.getElementById('link-result');
+    const copyBtn = document.getElementById('btn-copy-link');
+    const testBtn = document.getElementById('btn-test-link');
+
+    if (!asin) {
+      resultBox.textContent = '❌ Could not find a valid ASIN. Try pasting the full Amazon product URL.';
+      resultBox.style.color = '#f43f5e';
+      copyBtn.style.display = 'none';
+      testBtn.style.display = 'none';
+      return;
+    }
+
+    lastGeneratedASIN = asin;
+    lastGeneratedLink = `${AMAZON_BASE}${asin}?tag=${tag}`;
+
+    resultBox.textContent = lastGeneratedLink;
+    resultBox.style.color = '#34d399';
+    copyBtn.style.display = '';
+    testBtn.style.display = '';
+
+    // Auto-fill the ASIN field in the "Add Product" panel
+    document.getElementById('new-asin').value = asin;
+  });
+
+  document.getElementById('btn-copy-link').addEventListener('click', function() {
+    if (!lastGeneratedLink) return;
+    navigator.clipboard.writeText(lastGeneratedLink).then(() => {
+      this.textContent = '✓ Copied!';
+      setTimeout(() => { this.textContent = '📋 Copy Link'; }, 2000);
+    });
+  });
+
+  document.getElementById('btn-test-link').addEventListener('click', () => {
+    if (lastGeneratedLink) window.open(lastGeneratedLink, '_blank');
+  });
+
+  // ── Generate products.json entry ────────────────────────────────────────────
+  document.getElementById('btn-generate-json').addEventListener('click', () => {
+    const asin = document.getElementById('new-asin').value.trim();
+    const title = document.getElementById('new-title').value.trim();
+    const category = document.getElementById('new-category').value;
+    const badge = document.getElementById('new-badge').value;
+    const summary = document.getElementById('new-summary').value.trim();
+    const rating = parseFloat(document.getElementById('new-rating').value) || 4.5;
+    const tag = document.getElementById('admin-tag').value.trim() || 'apextechrevie-21';
+
+    if (!asin || !title) {
+      alert('Please fill in at least the ASIN and Product Title.');
+      return;
+    }
+
+    const badgeLabels = {
+      'editors-choice': "Editor's Choice",
+      'best-value': 'Best Value',
+      'enthusiast': 'Workstation Champion'
+    };
+
+    const id = 'product-' + asin.toLowerCase();
+    const score = Math.round(rating * 2) / 2;
+
+    const entry = {
+      id,
+      asin,
+      title,
+      category,
+      badge,
+      badgeLabel: badgeLabels[badge] || 'Top Pick',
+      rating,
+      score,
+      keyFeature: "Add key feature here",
+      targetBuyer: "Add target buyer description here",
+      summary: summary || "Add your product summary here.",
+      highlights: ["Feature 1", "Feature 2", "Feature 3", "Feature 4"],
+      specs: {
+        "Spec 1": "Value 1",
+        "Spec 2": "Value 2",
+        "Spec 3": "Value 3"
+      },
+      pros: ["Pro 1", "Pro 2", "Pro 3"],
+      cons: ["Con 1", "Con 2"],
+      buyIf: "Add who should buy this product.",
+      skipIf: "Add who should skip this product.",
+      image: "assets/headphones.svg",
+      pricingNote: "Prices and availability subject to change on Amazon.",
+      topPick: false
+    };
+
+    const jsonText = JSON.stringify(entry, null, 2);
+    const resultBox = document.getElementById('json-result');
+    const copyBtn = document.getElementById('btn-copy-json');
+
+    resultBox.textContent = jsonText;
+    resultBox.style.display = 'block';
+    copyBtn.style.display = '';
+    copyBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  });
+
+  document.getElementById('btn-copy-json').addEventListener('click', function() {
+    const text = document.getElementById('json-result').textContent;
+    navigator.clipboard.writeText(text).then(() => {
+      this.textContent = '✓ Copied!';
+      setTimeout(() => { this.textContent = '📋 Copy JSON Entry'; }, 2000);
+    });
+  });
+
+  // ── Load & display current products ─────────────────────────────────────────
+  async function loadProductsList() {
+    const container = document.getElementById('products-list');
+    try {
+      const res = await fetch('products.json');
+      const products = await res.json();
+      const tag = document.getElementById('admin-tag').value.trim() || 'apextechrevie-21';
+
+      container.innerHTML = products.map((p, i) => `
+        <div class="product-row" id="row-${p.id}">
+          <div class="product-row-num">${i + 1}</div>
+          <div>
+            <div class="product-row-title">${p.title}</div>
+            <div class="product-row-asin">ASIN: ${p.asin} &nbsp;|&nbsp; ${p.category} &nbsp;|&nbsp; ★ ${p.rating}</div>
+          </div>
+          <button class="btn-small" onclick="testProductLink('${p.asin}', '${tag}')">🔗 Test Link</button>
+          <button class="btn-small danger" onclick="copyProductLink('${p.asin}', '${tag}', this)">📋 Copy Link</button>
+        </div>
+      `).join('');
+    } catch (e) {
+      container.innerHTML = '<p style="color:var(--accent-rose)">❌ Could not load products.json. Make sure it exists in the same folder.</p>';
+    }
+  }
+
+  function testProductLink(asin, tag) {
+    window.open(`https://www.amazon.in/dp/${asin}?tag=${tag}`, '_blank');
+  }
+
+  function copyProductLink(asin, tag, btn) {
+    const link = `https://www.amazon.in/dp/${asin}?tag=${tag}`;
+    navigator.clipboard.writeText(link).then(() => {
+      btn.textContent = '✓ Copied!';
+      setTimeout(() => { btn.textContent = '📋 Copy Link'; }, 2000);
+    });
+  }
+
+  document.getElementById('admin-tag').addEventListener('input', function() {
+    const tag = this.value.trim() || 'apextechrevie-21';
+    document.getElementById('display-current-tag').textContent = tag;
+    loadProductsList();
+  });
+
+  // Copy Blogger Code
+  document.getElementById('btn-copy-blogger-code').addEventListener('click', async function() {
+    const btn = this;
+    const tag = document.getElementById('admin-tag').value.trim() || 'apextechrevie-21';
+    try {
+      const res = await fetch('blogger-post.html');
+      let html = await res.text();
+      // Replace tag with current live tag
+      html = html.replace(/tag=apextechrevie-21/g, `tag=${tag}`);
+      await navigator.clipboard.writeText(html);
+      btn.textContent = '✓ Copied to Clipboard!';
+      setTimeout(() => { btn.textContent = '📋 Copy Blogger-Ready HTML'; }, 2500);
+    } catch (e) {
+      alert('Open blogger-post.html directly in your editor to copy the code.');
+    }
+  });
+
+  loadProductsList();
+  </script>
+
+</body>
+</html>
