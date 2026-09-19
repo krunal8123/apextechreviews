@@ -206,9 +206,93 @@ body::before {
   margin-bottom: 8px;
   font-family: 'Outfit', sans-serif;
 }
-.search-title-wrap p {
-  font-size: 0.95rem;
+/* Multi-Store Horizontal Scroll Selector */
+.store-tabs-scroll-wrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  margin-bottom: 20px;
+  padding: 2px 0;
+}
+.store-tabs-scroll-wrap::-webkit-scrollbar {
+  display: none;
+}
+.store-tabs {
+  display: flex;
+  background: rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-sm);
+  padding: 4px;
+  gap: 6px;
+  width: max-content;
+  min-width: 100%;
+}
+.store-tab {
+  flex: 1;
+  min-width: 90px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: transparent;
+  border: none;
   color: var(--text-muted);
+  font-size: 0.88rem;
+  font-weight: 700;
+  border-radius: 6px;
+  cursor: pointer;
+  padding: 0 14px;
+  white-space: nowrap;
+  transition: var(--transition);
+}
+.store-tab.active {
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+.store-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.dot-amazon { background: var(--amazon-orange); }
+.dot-flipkart { background: #2874f0; }
+.dot-boat { background: #ef4444; }
+.dot-myntra { background: #ff3f6c; }
+.dot-croma { background: #12caa7; }
+.dot-samsung { background: #2563eb; }
+
+/* Dynamic Store Search Buttons */
+.btn-store-amazon {
+  background: linear-gradient(135deg, var(--amazon-orange), #f57c00) !important;
+  color: #111 !important;
+}
+.btn-store-flipkart {
+  background: linear-gradient(135deg, #2874f0, #1a5ac9) !important;
+  color: #fff !important;
+  box-shadow: 0 4px 16px rgba(40, 116, 240, 0.4) !important;
+}
+.btn-store-boat {
+  background: linear-gradient(135deg, #ef4444, #b91c1c) !important;
+  color: #fff !important;
+  box-shadow: 0 4px 16px rgba(239, 68, 68, 0.4) !important;
+}
+.btn-store-myntra {
+  background: linear-gradient(135deg, #ff3f6c, #e11d48) !important;
+  color: #fff !important;
+  box-shadow: 0 4px 16px rgba(255, 63, 108, 0.4) !important;
+}
+.btn-store-croma {
+  background: linear-gradient(135deg, #0d9488, #0f766e) !important;
+  color: #fff !important;
+  box-shadow: 0 4px 16px rgba(13, 148, 136, 0.4) !important;
+}
+.btn-store-samsung {
+  background: linear-gradient(135deg, #2563eb, #1e40af) !important;
+  color: #fff !important;
+  box-shadow: 0 4px 16px rgba(37, 99, 235, 0.4) !important;
 }
 
 /* Mobile Search Form */

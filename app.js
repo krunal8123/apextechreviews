@@ -1,5 +1,6 @@
 // =========================================================
-// ApexSearch PWA — Amazon Affiliate Search Engine
+// ApexSearch PWA — Multi-Store Search Engine
+// (Amazon, Flipkart, boAt, Myntra, Croma, Samsung)
 // =========================================================
 
 const AFFILIATE_TAG = 'apextechrevie-21';
@@ -7,6 +8,63 @@ const AMAZON_SEARCH_BASE = 'https://www.amazon.in/s?';
 const AMAZON_DP_BASE = 'https://www.amazon.in/dp/';
 const AMAZON_DEALS_BASE = 'https://www.amazon.in/deals?';
 const RECENT_KEY = 'apexsearch_recent_searches';
+
+const STORE_CONFIG = {
+  amazon: {
+    name: 'Amazon',
+    btnClass: 'btn-store-amazon',
+    placeholder: 'Search Amazon phones, laptops, headphones, deals...',
+    hasCategory: true,
+    buildUrl: (query, category) => {
+      const params = new URLSearchParams();
+      params.set('k', query);
+      if (category && category !== 'electronics' && category !== 'todays-deals') {
+        params.set('i', category);
+      }
+      params.set('tag', AFFILIATE_TAG);
+      return category === 'todays-deals'
+        ? `${AMAZON_DEALS_BASE}k=${encodeURIComponent(query)}&tag=${AFFILIATE_TAG}`
+        : `${AMAZON_SEARCH_BASE}${params.toString()}`;
+    }
+  },
+  flipkart: {
+    name: 'Flipkart',
+    btnClass: 'btn-store-flipkart',
+    placeholder: 'Search Flipkart mobiles, laptops, electronics...',
+    hasCategory: false,
+    buildUrl: (query) => `https://www.flipkart.com/search?q=${encodeURIComponent(query)}`
+  },
+  boat: {
+    name: 'boAt',
+    btnClass: 'btn-store-boat',
+    placeholder: 'Search boAt Airdopes, headphones, smartwatches...',
+    hasCategory: false,
+    buildUrl: (query) => `https://www.boat-lifestyle.com/search?q=${encodeURIComponent(query)}`
+  },
+  myntra: {
+    name: 'Myntra',
+    btnClass: 'btn-store-myntra',
+    placeholder: 'Search Myntra smartwatches, audio, wearables...',
+    hasCategory: false,
+    buildUrl: (query) => `https://www.myntra.com/${encodeURIComponent(query)}`
+  },
+  croma: {
+    name: 'Croma',
+    btnClass: 'btn-store-croma',
+    placeholder: 'Search Croma laptops, TVs, audio, gadgets...',
+    hasCategory: false,
+    buildUrl: (query) => `https://www.croma.com/searchB?q=${encodeURIComponent(query)}`
+  },
+  samsung: {
+    name: 'Samsung',
+    btnClass: 'btn-store-samsung',
+    placeholder: 'Search Samsung Galaxy phones, tablets, monitors...',
+    hasCategory: false,
+    buildUrl: (query) => `https://www.samsung.com/in/search/?searchvalue=${encodeURIComponent(query)}`
+  }
+};
+
+let currentStore = 'amazon';
 
 // ── 1. Register Service Worker (PWA) ─────────────────────
 if ('serviceWorker' in navigator) {
@@ -48,32 +106,15 @@ if (btnClosePwa && installBanner) {
   });
 }
 
-// ── 3. Amazon Search Logic ────────────────────────────────
-function buildSearchURL(query, category) {
-  const params = new URLSearchParams();
-  params.set('k', query);
-  if (category && category !== 'electronics' && category !== 'todays-deals') {
-    params.set('i', category);
-  }
-  params.set('tag', AFFILIATE_TAG);
-  return `${AMAZON_SEARCH_BASE}${params.toString()}`;
-}
-
-function buildDealsURL(query) {
-  return `${AMAZON_DEALS_BASE}k=${encodeURIComponent(query)}&tag=${AFFILIATE_TAG}`;
-}
-
+// ── 3. Launch Search ──────────────────────────────────────
 function launchSearch(query, category) {
   if (!query) return;
   saveRecentSearch(query);
 
-  let url;
-  if (category === 'todays-deals') {
-    url = buildDealsURL(query);
-  } else {
-    url = buildSearchURL(query, category || 'electronics');
-  }
-  window.open(url, '_blank');
+  const config = STORE_CONFIG[currentStore] || STORE_CONFIG.amazon;
+  const targetUrl = config.buildUrl(query, category);
+
+  window.open(targetUrl, '_blank');
 }
 
 // ── 4. Recent Searches Storage ────────────────────────────
@@ -91,7 +132,7 @@ function saveRecentSearch(query) {
 
   let recents = getRecentSearches().filter(q => q.toLowerCase() !== clean.toLowerCase());
   recents.unshift(clean);
-  recents = recents.slice(0, 6); // Keep last 6
+  recents = recents.slice(0, 6);
   localStorage.setItem(RECENT_KEY, JSON.stringify(recents));
   renderRecentSearches();
 }
@@ -130,6 +171,34 @@ document.addEventListener('DOMContentLoaded', () => {
   const queryInput = document.getElementById('amazon-query');
   const categorySelect = document.getElementById('amazon-category');
   const btnClear = document.getElementById('btn-clear-query');
+  const btnSubmit = document.getElementById('btn-submit-search');
+  const searchBtnLabel = document.getElementById('search-btn-label');
+  const storeTabs = document.querySelectorAll('.store-tab');
+
+  const allBtnClasses = Object.values(STORE_CONFIG).map(c => c.btnClass);
+
+  // Store selector switcher
+  storeTabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      storeTabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      currentStore = tab.getAttribute('data-store');
+
+      const config = STORE_CONFIG[currentStore] || STORE_CONFIG.amazon;
+
+      // Update button text and color
+      searchBtnLabel.textContent = `Search ${config.name}`;
+      allBtnClasses.forEach(cls => btnSubmit.classList.remove(cls));
+      btnSubmit.classList.add(config.btnClass);
+
+      queryInput.placeholder = config.placeholder;
+
+      // Category filter only needed for Amazon
+      if (categorySelect) {
+        categorySelect.style.display = config.hasCategory ? '' : 'none';
+      }
+    });
+  });
 
   // Show/hide clear button
   if (queryInput && btnClear) {
@@ -153,7 +222,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Direct ASIN / URL Launcher
+  // Direct Product URL / ASIN Launcher
   const btnLaunchAsin = document.getElementById('btn-launch-asin');
   const asinInput = document.getElementById('direct-asin-input');
 
@@ -162,13 +231,29 @@ document.addEventListener('DOMContentLoaded', () => {
       const val = asinInput.value.trim();
       if (!val) return;
 
-      const asinMatch = val.match(/(?:dp\/|gp\/product\/|asin=|\/)([A-Z0-9]{10})(?:[/?&]|$)/i) || val.match(/^[A-Z0-9]{10}$/i);
+      // Supported Cuelinks direct domains (auto-monetized)
+      const isDirectSupportedUrl = [
+        'flipkart.com',
+        'boat-lifestyle.com',
+        'myntra.com',
+        'croma.com',
+        'samsung.com',
+        'reliancedigital.in',
+        'tatacliq.com',
+        'ajio.com'
+      ].some(domain => val.includes(domain));
 
+      if (isDirectSupportedUrl) {
+        window.open(val, '_blank');
+        return;
+      }
+
+      // Amazon ASIN check
+      const asinMatch = val.match(/(?:dp\/|gp\/product\/|asin=|\/)([A-Z0-9]{10})(?:[/?&]|$)/i) || val.match(/^[A-Z0-9]{10}$/i);
       if (asinMatch) {
         const asin = (asinMatch[1] || asinMatch[0]).toUpperCase();
         window.open(`${AMAZON_DP_BASE}${asin}?tag=${AFFILIATE_TAG}`, '_blank');
       } else {
-        // Fallback: search for input text
         launchSearch(val, 'electronics');
       }
     };
