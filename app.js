@@ -87,10 +87,10 @@ const CATEGORIES_DATA = [
   }
 ];
 
-// Helper: Get active affiliate tag
+// Helper: Get active affiliate tag (defaults to apextechrevie-21 silently)
 function getActiveTag() {
-  const input = document.getElementById('tag-input');
-  return (input && input.value.trim()) || 'apextechrevie-21';
+  const urlParams = new URLSearchParams(window.location.search);
+  return urlParams.get('tag') || 'apextechrevie-21';
 }
 
 // Build Amazon search URL

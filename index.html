@@ -1,18 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ApexTech Hub | Live Amazon Electronics Search & Curated Tech Deals</title>
-  <meta name="description" content="Search any electronics, headphones, laptops, smartphones, and workspace gear directly on Amazon.in with curated deals and price drops.">
+  <meta name="description"
+    content="Search any electronics, headphones, laptops, smartphones, and workspace gear directly on Amazon.in with curated deals and price drops.">
   <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
 
   <!-- FTC & Amazon Associates Compliance Bar -->
   <div class="compliance-bar" id="affiliate-disclosure">
     <div class="container">
-      <strong>Affiliate Disclosure:</strong> As an Amazon Associate, we earn from qualifying purchases. When you search or buy products through links on this site, we earn an affiliate commission from Amazon at no extra cost to you.
+      <strong>Affiliate Disclosure:</strong> As an Amazon Associate, we earn from qualifying purchases. When you search
+      or buy products through links on this site, we earn an affiliate commission from Amazon at no extra cost to you.
     </div>
   </div>
 
@@ -23,13 +27,10 @@
         <span class="logo-badge">APEX</span>
         <span>TechHub</span>
       </a>
-      <div class="tag-configurator">
-        <label for="tag-input">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>
-          Associate Tag:
-        </label>
-        <input type="text" id="tag-input" value="apextechrevie-21" placeholder="apextechrevie-21" title="Your live Amazon Associate Tracking ID">
-        <span class="tag-status" id="tag-status">Active</span>
+      <div class="nav-links">
+        <a href="#search-section" class="nav-link">Search</a>
+        <a href="#deal-lightning" class="nav-link">Lightning Deals</a>
+        <a href="#categories-section" class="nav-link">Categories</a>
       </div>
     </div>
   </nav>
@@ -39,18 +40,26 @@
     <!-- Hero Search Section -->
     <header class="hero-search-section">
       <div class="hero-pill">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+        </svg>
         Live Amazon.in Affiliate Search Engine • Direct Commission Integration
       </div>
       <h1>Search Any Electronics on Amazon</h1>
-      <p>Instant price checks, live Amazon lightning deals, and curated electronics categories with your affiliate tag automatically applied.</p>
+      <p>Instant price checks, live Amazon lightning deals, and curated electronics categories with your affiliate tag
+        automatically applied.</p>
 
       <!-- Live Search Box -->
       <div class="search-box-card">
         <form id="amazon-search-form" class="search-form">
           <div class="search-input-group">
-            <svg class="search-icon" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
-            <input type="text" id="amazon-query" placeholder="Type any gadget, brand or model (e.g. Sony WH-1000XM5, iPad Air, M3 MacBook, Boat Airdopes)..." autofocus autocomplete="off">
+            <svg class="search-icon" viewBox="0 0 24 24">
+              <path
+                d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" />
+            </svg>
+            <input type="text" id="amazon-query"
+              placeholder="Type any gadget, brand or model (e.g. Sony WH-1000XM5, iPad Air, M3 MacBook, Boat Airdopes)..."
+              autofocus autocomplete="off">
           </div>
           <div class="search-filter-group">
             <select id="amazon-category">
@@ -62,7 +71,10 @@
               <option value="todays-deals">Today's Deals Only</option>
             </select>
             <button type="submit" class="btn-search-amazon">
-              <svg viewBox="0 0 24 24"><path d="M15.3 11.2c-.1-.7-.4-1.3-.9-1.8-.5-.5-1.1-.8-1.8-.9-.8 0-1.4.3-2 .8-.5.5-.8 1.1-.9 1.9h5.6zm1.9 2.5c-.1.7-.4 1.3-.8 1.8-.5.5-1.1.8-1.9.9-.7 0-1.4-.3-1.9-.8-.5-.5-.8-1.1-.9-1.9h5.5zM21.7 20.3c-.3.3-.8.4-1.2.4-1.5 0-3.3-.7-5.5-2.1-2.2-1.4-4-3-5.4-4.8C8.2 12 7.3 10.3 7 8.7c-.2-.9 0-1.7.5-2.3.4-.6 1.1-.9 2-.9 1 0 1.8.4 2.3 1.2.4.7.6 1.5.6 2.4 0 .9-.3 1.7-.8 2.4-.5.7-1.2 1.2-2.1 1.5.6 1.1 1.4 2.1 2.4 3 1 1 2.2 1.8 3.5 2.5.4-.7.9-1.3 1.6-1.7.7-.4 1.4-.6 2.2-.6.9 0 1.7.3 2.3.9.6.6.9 1.4.9 2.3-.1.4-.2.7-.4.9z"/></svg>
+              <svg viewBox="0 0 24 24">
+                <path
+                  d="M15.3 11.2c-.1-.7-.4-1.3-.9-1.8-.5-.5-1.1-.8-1.8-.9-.8 0-1.4.3-2 .8-.5.5-.8 1.1-.9 1.9h5.6zm1.9 2.5c-.1.7-.4 1.3-.8 1.8-.5.5-1.1.8-1.9.9-.7 0-1.4-.3-1.9-.8-.5-.5-.8-1.1-.9-1.9h5.5zM21.7 20.3c-.3.3-.8.4-1.2.4-1.5 0-3.3-.7-5.5-2.1-2.2-1.4-4-3-5.4-4.8C8.2 12 7.3 10.3 7 8.7c-.2-.9 0-1.7.5-2.3.4-.6 1.1-.9 2-.9 1 0 1.8.4 2.3 1.2.4.7.6 1.5.6 2.4 0 .9-.3 1.7-.8 2.4-.5.7-1.2 1.2-2.1 1.5.6 1.1 1.4 2.1 2.4 3 1 1 2.2 1.8 3.5 2.5.4-.7.9-1.3 1.6-1.7.7-.4 1.4-.6 2.2-.6.9 0 1.7.3 2.3.9.6.6.9 1.4.9 2.3-.1.4-.2.7-.4.9z" />
+              </svg>
               Search Amazon
             </button>
           </div>
@@ -107,7 +119,8 @@
       <div class="section-header-wrap">
         <div>
           <h2 class="section-title">Explore Electronics by Category</h2>
-          <p class="section-desc">Click any category or popular brand to launch a live filtered Amazon search with your affiliate tracking active.</p>
+          <p class="section-desc">Click any category or popular brand to launch a live filtered Amazon search with your
+            affiliate tracking active.</p>
         </div>
       </div>
 
@@ -121,11 +134,13 @@
       <div class="asin-box-content">
         <div>
           <h3>Direct ASIN / Product Link Launcher</h3>
-          <p>Know a specific product? Paste any Amazon product link or 10-digit ASIN (e.g. B09G9FPHY6) to jump straight to it with your affiliate tag attached.</p>
+          <p>Know a specific product? Paste any Amazon product link or 10-digit ASIN (e.g. B09G9FPHY6) to jump straight
+            to it with your affiliate tag attached.</p>
         </div>
         <div class="asin-input-bar">
           <input type="text" id="direct-asin-input" placeholder="Paste Amazon URL or ASIN...">
-          <button id="btn-launch-asin" class="btn-primary" style="width:auto; padding: 10px 20px;">Open on Amazon</button>
+          <button id="btn-launch-asin" class="btn-primary" style="width:auto; padding: 10px 20px;">Open on
+            Amazon</button>
         </div>
       </div>
     </section>
@@ -141,7 +156,9 @@
             <span class="logo-badge">APEX</span><span>TechHub</span>
           </div>
           <p class="footer-disclaimer">
-            ApexTech Hub is an independent tech search and deal aggregation portal. We participate in the Amazon Services LLC Associates Program (Amazon.in Associates), an affiliate advertising program designed to provide a means for sites to earn advertising fees by advertising and linking to Amazon.in.
+            ApexTech Hub is an independent tech search and deal aggregation portal. We participate in the Amazon
+            Services LLC Associates Program (Amazon.in Associates), an affiliate advertising program designed to provide
+            a means for sites to earn advertising fees by advertising and linking to Amazon.in.
           </p>
         </div>
         <div>
@@ -157,12 +174,14 @@
           <h4 style="margin-bottom: 12px; color: #fff;">Affiliate Policies</h4>
           <ul class="footer-links">
             <li><a href="#affiliate-disclosure">FTC Compliance Disclosure</a></li>
-            <li><a href="https://affiliate-program.amazon.in/help/operating/agreement" target="_blank" rel="noopener">Amazon Operating Agreement</a></li>
+            <li><a href="https://affiliate-program.amazon.in/help/operating/agreement" target="_blank"
+                rel="noopener">Amazon Operating Agreement</a></li>
             <li><a href="admin.html" target="_blank">Admin & Link Tools</a></li>
           </ul>
         </div>
       </div>
-      <div style="text-align: center; border-top: 1px solid var(--border-color); padding-top: 20px; font-size: 0.78rem; color: var(--text-muted);">
+      <div
+        style="text-align: center; border-top: 1px solid var(--border-color); padding-top: 20px; font-size: 0.78rem; color: var(--text-muted);">
         © 2026 ApexTech Hub. Amazon and the Amazon logo are trademarks of Amazon.com, Inc. or its affiliates.
       </div>
     </div>
@@ -170,4 +189,5 @@
 
   <script src="app.js"></script>
 </body>
+
 </html>

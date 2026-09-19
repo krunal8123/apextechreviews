@@ -127,42 +127,21 @@ body::after {
   letter-spacing: 0.05em;
 }
 
-/* Tag Configurator */
-.tag-configurator {
+/* Nav Links */
+.nav-links {
   display: flex;
   align-items: center;
-  gap: 10px;
-  background: rgba(255, 255, 255, 0.04);
-  padding: 6px 14px;
-  border-radius: 30px;
-  border: 1px solid var(--border-color);
-  font-size: 0.82rem;
+  gap: 20px;
 }
-.tag-configurator label {
+.nav-link {
   color: var(--text-secondary);
-  display: flex;
-  align-items: center;
-  gap: 6px;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: var(--transition);
 }
-.tag-configurator input {
-  background: rgba(0, 0, 0, 0.4);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+.nav-link:hover {
   color: #fff;
-  padding: 4px 10px;
-  border-radius: 6px;
-  font-size: 0.82rem;
-  width: 140px;
-  outline: none;
-  font-family: monospace;
-}
-.tag-configurator input:focus {
-  border-color: var(--primary);
-  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.3);
-}
-.tag-configurator .tag-status {
-  font-size: 0.75rem;
-  color: var(--accent-emerald);
-  font-weight: 600;
 }
 
 /* Hero Search Section */
