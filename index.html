@@ -98,30 +98,20 @@
           <button type="button" id="btn-clear-query" class="btn-clear" style="display:none;">✕</button>
         </div>
 
-        <div class="search-options-row">
-          <select id="amazon-category" class="category-dropdown">
-            <option value="electronics">All Electronics</option>
-            <option value="computers">Laptops & Computers</option>
-            <option value="hpc">Phones & Mobile</option>
-            <option value="watches">Smartwatches</option>
-            <option value="videogames">Gaming Gear</option>
-            <option value="todays-deals">Today's Deals</option>
-          </select>
-          <button type="submit" id="btn-submit-search" class="btn-search btn-store-amazon">
-            <svg class="store-icon-amazon" viewBox="0 0 24 24">
-              <path
-                d="M15.3 11.2c-.1-.7-.4-1.3-.9-1.8-.5-.5-1.1-.8-1.8-.9-.8 0-1.4.3-2 .8-.5.5-.8 1.1-.9 1.9h5.6zm1.9 2.5c-.1.7-.4 1.3-.8 1.8-.5.5-1.1.8-1.9.9-.7 0-1.4-.3-1.9-.8-.5-.5-.8-1.1-.9-1.9h5.5zM21.7 20.3c-.3.3-.8.4-1.2.4-1.5 0-3.3-.7-5.5-2.1-2.2-1.4-4-3-5.4-4.8C8.2 12 7.3 10.3 7 8.7c-.2-.9 0-1.7.5-2.3.4-.6 1.1-.9 2-.9 1 0 1.8.4 2.3 1.2.4.7.6 1.5.6 2.4 0 .9-.3 1.7-.8 2.4-.5.7-1.2 1.2-2.1 1.5.6 1.1 1.4 2.1 2.4 3 1 1 2.2 1.8 3.5 2.5.4-.7.9-1.3 1.6-1.7.7-.4 1.4-.6 2.2-.6.9 0 1.7.3 2.3.9.6.6.9 1.4.9 2.3-.1.4-.2.7-.4.9z" />
-            </svg>
-            <span id="search-btn-label">Search Amazon</span>
-          </button>
-        </div>
+        <button type="submit" id="btn-submit-search" class="btn-search btn-store-amazon">
+          <svg class="store-icon-amazon" viewBox="0 0 24 24">
+            <path
+              d="M15.3 11.2c-.1-.7-.4-1.3-.9-1.8-.5-.5-1.1-.8-1.8-.9-.8 0-1.4.3-2 .8-.5.5-.8 1.1-.9 1.9h5.6zm1.9 2.5c-.1.7-.4 1.3-.8 1.8-.5.5-1.1.8-1.9.9-.7 0-1.4-.3-1.9-.8-.5-.5-.8-1.1-.9-1.9h5.5zM21.7 20.3c-.3.3-.8.4-1.2.4-1.5 0-3.3-.7-5.5-2.1-2.2-1.4-4-3-5.4-4.8C8.2 12 7.3 10.3 7 8.7c-.2-.9 0-1.7.5-2.3.4-.6 1.1-.9 2-.9 1 0 1.8.4 2.3 1.2.4.7.6 1.5.6 2.4 0 .9-.3 1.7-.8 2.4-.5.7-1.2 1.2-2.1 1.5.6 1.1 1.4 2.1 2.4 3 1 1 2.2 1.8 3.5 2.5.4-.7.9-1.3 1.6-1.7.7-.4 1.4-.6 2.2-.6.9 0 1.7.3 2.3.9.6.6.9 1.4.9 2.3-.1.4-.2.7-.4.9z" />
+          </svg>
+          <span id="search-btn-label">Search Amazon</span>
+        </button>
       </form>
 
       <!-- Direct Link / ASIN Converter -->
       <div class="direct-asin-box">
-        <div class="direct-asin-label">Paste Amazon Link or ASIN directly:</div>
+        <div class="direct-asin-label">Paste Product URL or ASIN directly:</div>
         <div class="direct-asin-form">
-          <input type="text" id="direct-asin-input" placeholder="e.g. B0G5G7LCJQ or full Amazon URL">
+          <input type="text" id="direct-asin-input" placeholder="Paste Amazon, Flipkart, boAt link...">
           <button id="btn-launch-asin" class="btn-go">Go →</button>
         </div>
       </div>
